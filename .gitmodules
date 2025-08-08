@@ -1,5 +1,5 @@
-[submodule "ticket.ticketing.dev"]
-	path = ticket.ticketing.dev
+[submodule "ticket-service"]
+	path = ticket-service
 	url = https://github.com/jiaulislam/ticket.ticketing.dev
 [submodule "common-service"]
 	path = common-service
