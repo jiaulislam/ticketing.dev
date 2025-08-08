@@ -1,0 +1,30 @@
+{
+	# HTTP listener
+	http_port 80
+	# HTTPS listener
+	https_port 443
+}
+
+ticketing.dev {
+	# Enable automatic HTTPS (Caddy will use local certificates for dev)
+	tls internal
+
+	# Auth/Users Service
+	route /api/v1/auth/* {
+		reverse_proxy auth.ticketing.dev:4000
+	}
+	route /api/v1/users/* {
+		reverse_proxy auth.ticketing.dev:4000
+	}
+	# Ticket Service
+	route /api/v1/tickets/* {
+		reverse_proxy ticket.ticketing.dev:4001
+	}
+
+	# Client (Frontend)
+	route /* {
+		# return 404
+		respond "Not Found" 404
+		# reverse_proxy localhost:3000
+	}
+}

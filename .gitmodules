@@ -1,0 +1,9 @@
+[submodule "ticket.ticketing.dev"]
+	path = ticket.ticketing.dev
+	url = https://github.com/jiaulislam/ticket.ticketing.dev
+[submodule "common-service"]
+	path = common-service
+	url = https://github.com/jiaulislam/common.ticketing.dev
+[submodule "auth-service"]
+	path = auth-service
+	url = https://github.com/jiaulislam/auth.ticketing.dev
