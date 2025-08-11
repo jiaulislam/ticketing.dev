@@ -20,11 +20,13 @@ ticketing.dev {
 	route /api/v1/tickets/* {
 		reverse_proxy ticket.ticketing.dev:4001
 	}
+	# Order Service
+	route /api/v1/orders/* {
+		reverse_proxy order.ticketing.dev:4002
+	}
 
 	# Client (Frontend)
 	route /* {
-		# return 404
 		respond "Not Found" 404
-		# reverse_proxy localhost:3000
 	}
 }
