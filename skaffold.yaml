@@ -17,3 +17,19 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: jiaulislam/ticket.ticketing.dev
+      context: ticket.ticketing.dev
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: jiaulislam/order.ticketing.dev
+      context: order.ticketing.dev
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .

@@ -27,5 +27,5 @@ spec:
   ports:
     - name: auth-port
       protocol: TCP
-      port: 3000
-      targetPort: 3000
+      port: 4000
+      targetPort: 4000

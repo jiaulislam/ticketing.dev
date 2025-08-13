@@ -17,13 +17,13 @@ spec:
                 name: auth-service
                 port:
                   number: 4000
-          - path: /api/v1/orders
+          - path: /api/v1/users
             pathType: Prefix
             backend:
               service:
-                name: order-service
+                name: auth-service
                 port:
-                  number: 4002
+                  number: 4000
           - path: /api/v1/tickets
             pathType: Prefix
             backend:
@@ -31,3 +31,10 @@ spec:
                 name: ticket-service
                 port:
                   number: 4001
+          - path: /api/v1/orders
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 4002
