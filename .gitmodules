@@ -10,3 +10,6 @@
 [submodule "order-service"]
 	path = order-service
 	url = https://github.com/jiaulislam/order.ticketing.dev
+[submodule "payment-service"]
+	path = payment-service
+	url = git@github.com:jiaulislam/payment-service.git
