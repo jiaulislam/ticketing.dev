@@ -46,6 +46,8 @@ services:
       - "443:443"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - ticketing-network
     depends_on:
       - auth-service
       - ticket-service

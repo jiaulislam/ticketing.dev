@@ -5,7 +5,7 @@
 	https_port 443
 }
 
-ticketing.docker.dev {
+ticketing.dev {
 	# Enable automatic HTTPS (Caddy will use local certificates for dev)
 	tls internal
 

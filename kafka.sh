@@ -1,3 +1,6 @@
+docker network create ticketing-network
+docker network connect ticketing-network kafka-broker
+
 docker run -d \
   --name kafka-broker \
   --network ticketing-network \
