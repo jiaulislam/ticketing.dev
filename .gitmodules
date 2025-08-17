@@ -17,3 +17,6 @@
 [submodule "payment-service"]
 	path = payment-service
 	url = git@github.com:jiaulislam/payment-service.git
+[submodule "client-service"]
+	path = client-service
+	url = git@github-personal:jiaulislam/frontend.ticketing.dev
