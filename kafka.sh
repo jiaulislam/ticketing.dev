@@ -15,14 +15,6 @@ docker run -d \
   -e KAFKA_NUM_PARTITIONS=1 \
   apache/kafka:latest
 
-
-# create topics in that docker
-# docker exec --workdir /opt/kafka/bin/ -it kafka-broker sh
-# ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic ticket.created
-# ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic ticket.updated
-# ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic order.created
-# ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic order.updated
-
 sleep 10
 
 docker exec kafka-broker /opt/kafka/bin/kafka-topics.sh \
