@@ -1,56 +1,14 @@
+name: ticketing-system
 services:
-  postgres:
-    image: postgres:latest
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    ports:
-      - "5455:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=supersecretpassword
-
-  kafka:
-    image: apache/kafka:3.7.0
-    environment:
-      KAFKA_NODE_ID: 1
-      KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_LISTENERS: PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_NUM_PARTITIONS: 1
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
-    ports:
-      - 9092:9092
-    volumes:
-      - kafka-data:/var/lib/kafka/data
-    healthcheck:
-      test: ["CMD-SHELL", "nc -z localhost 9092 || exit 1"]
-      interval: 5s
-      timeout: 5s
-      retries: 12
-
   auth-service:
     build:
       context: ./auth-service
       dockerfile: Dockerfile
     environment:
       - JWT_KEY=your_jwt_secret_key
-      - DATABASE_URL=postgresql://auth_user:password123@postgres:5432/auth_service
-    depends_on:
-      postgres:
-        condition: service_healthy
+      - DATABASE_URL=postgresql://auth_user:password123@host.docker.internal:5432/auth_service
+    networks:
+      - ticketing-network
 
   ticket-service:
     build:
@@ -58,15 +16,14 @@ services:
       dockerfile: Dockerfile
     environment:
       - JWT_KEY=your_jwt_secret_key
-      - DATABASE_URL=postgresql://ticket_user:password123@postgres:5432/ticket_service
-      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - DATABASE_URL=postgresql://ticket_user:password123@host.docker.internal:5432/ticket_service
+      - KAFKA_BOOTSTRAP_SERVERS=kafka-broker:9092
       - KAFKA_CLIENT_ID=ticket-service
       - KAFKA_GROUP_ID=ticket-service-group
+    networks:
+      - ticketing-network
     depends_on:
-      kafka:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
+      - auth-service
 
   order-service:
     build:
@@ -74,16 +31,14 @@ services:
       dockerfile: Dockerfile
     environment:
       - JWT_KEY=your_jwt_secret_key
-      - DATABASE_URL=postgresql://order_user:password123@postgres:5432/order_service
-      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - DATABASE_URL=postgresql://order_user:password123@host.docker.internal:5432/order_service
+      - KAFKA_BOOTSTRAP_SERVERS=kafka-broker:9092
       - KAFKA_CLIENT_ID=order-service
       - KAFKA_GROUP_ID=order-service-group
+    networks:
+      - ticketing-network
     depends_on:
-      postgres:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
-
+      - auth-service
   caddy:
     image: caddy:latest
     ports:
@@ -96,6 +51,6 @@ services:
       - ticket-service
       - order-service
 
-volumes:
-  postgres-data:
-  kafka-data:
+networks:
+  ticketing-network:
+    external: true

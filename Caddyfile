@@ -11,18 +11,18 @@ ticketing.docker.dev {
 
 	# Auth/Users Service
 	route /api/v1/auth/* {
-		reverse_proxy auth.ticketing.dev:4000
+		reverse_proxy auth-service:4000
 	}
 	route /api/v1/users/* {
-		reverse_proxy auth.ticketing.dev:4000
+		reverse_proxy auth-service:4000
 	}
 	# Ticket Service
 	route /api/v1/tickets/* {
-		reverse_proxy ticket.ticketing.dev:4001
+		reverse_proxy ticket-service:4001
 	}
 	# Order Service
 	route /api/v1/orders/* {
-		reverse_proxy order.ticketing.dev:4002
+		reverse_proxy order-service:4002
 	}
 
 	# Client (Frontend)
