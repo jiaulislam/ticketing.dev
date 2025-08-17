@@ -1,18 +1,23 @@
 [submodule "ticket-service"]
 	path = ticket-service
 	url = https://github.com/jiaulislam/ticket.ticketing.dev
+
 [submodule "common-service"]
 	path = common-service
 	url = https://github.com/jiaulislam/common.ticketing.dev
+
 [submodule "auth-service"]
 	path = auth-service
 	url = https://github.com/jiaulislam/auth.ticketing.dev
+
 [submodule "order-service"]
 	path = order-service
 	url = https://github.com/jiaulislam/order.ticketing.dev
+
 [submodule "payment-service"]
 	path = payment-service
 	url = git@github.com:jiaulislam/payment-service.git
+
 [submodule "frontend"]
 	path = frontend
 	url = git@github.com:jiaulislam/client.ticketing.dev
